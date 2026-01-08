@@ -5,19 +5,19 @@
 scp C:\plant-tools\iperf3-aarch64 pi@cam_ip:/tmp/iperf3
 
 ```
-- Copy to server
-```
-scp /usr/bin/iperf3 user@SERVER_IP:/tmp/iperf3
-```
-
-3. Make it executable
-
-- On camera / server:
+- run
 ```
 chmod +x /tmp/iperf3
+/tmp/iperf3 --version
 ```
 
-- Run it:
+- Move to more permanent dir
+```
+sudo mv /tmp/iperf3 /usr/local/bin/iperf3
+sudo chmod 755 /usr/local/bin/iperf3
+```
+
+- Run :
 ```
 /tmp/iperf3 --version
 ```
