@@ -1,3 +1,13 @@
+### Report
+sudo chmod +x run_iperf_location_report.sh
+
+udo nano run_iperf_location_report.sh
+pi@raspberrypi:~/iperf-3.14 $ sudo chmod +x run_iperf_location_report.sh
+pi@raspberrypi:~/iperf-3.14 $ sudo pkill iperf3
+pi@raspberrypi:~/iperf-3.14 $ sudo ./run_iperf_location_report.sh LAB
+
+sudo cat /root/iperf_reports/<latest_folder>/summary.txt
+
 ### install no internet from Linux (cam)
 
 - Copy to camera from Sophia Lapop
