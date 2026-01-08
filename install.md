@@ -34,6 +34,74 @@ sudo chmod 755 /usr/local/bin/iperf3
 /tmp/iperf3 -c CAMERA_IP
 ```
 
+## NOTES
+##### Does it matter which side is server vs client?
+- Yes — it matters a LOT.
+- iperf is directional.
+- Changing server/client changes the traffic direction.
+- That’s critical because:
+```
+Fiber polarity
+TX/RX issues
+Bad SFPs
+Asymmetric routing
+Role	What it does
+Server (-s)	Just listens
+Client (-c)	Sends traffic
+```
+
+- A typical good result looks like:
+```
+[  5]   0.00-10.00  sec  1.08 GBytes   930 Mbits/sec  0             sender
+[  5]   0.00-10.00  sec  1.08 GBytes   929 Mbits/sec                receiver
+```
+
+##### Focus on four things only
+ 1. Throughput (Mbps)
+```
+Gigabit link: 850–940 Mbps
+Fast Ethernet: 90–95 Mbps
+Large deviations matter.
+```
+
+2. Stability over time
+```
+Bad:
+
+0–2 sec: 900 Mbps
+2–4 sec: 300 Mbps
+4–10 sec: 0 Mbps
+```
+- That screams:
+- marginal fiber
+- polarity issues
+- bad optics
+
+3. Retransmits (TCP)
+- Example:
+```
+sender: 120 retransmits
+0–5 retransmits → normal
+```
+- Dozens or hundreds → physical layer problem
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### Gratuitous ARP test
 
 - From camera (if it has any IP, even static):
