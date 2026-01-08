@@ -1,25 +1,9 @@
 ### install no internet from Linux (cam)
 
-1. Get iperf3 on a machine WITH internet (lab/laptop)
-- On Ubuntu / Debian / Pi (same CPU arch as cameras)
+- Copy to camera from Sophia Lapop
 ```
-which iperf3
-```
+scp C:\plant-tools\iperf3-aarch64 pi@cam_ip:/tmp/iperf3
 
-- Usually:
-```
-/usr/bin/iperf3
-```
-
-- If it’s not installed yet:
-```
-sudo apt install iperf3
-```
-2. Copy the binary to the camera or server
-
-- Copy to camera
-```
-scp /usr/bin/iperf3 camera@CAMERA_IP:/tmp/iperf3
 ```
 - Copy to server
 ```
