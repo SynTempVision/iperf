@@ -22,16 +22,81 @@ sudo chmod 755 /usr/local/bin/iperf3
 /tmp/iperf3 --version
 ```
 
-4. Run the test
+4. Run basic test
 
 - On camera (server mode)
 ```
-/tmp/iperf3 -s
+iperf3 -s
 ```
 
 - On server or laptop (client mode)
 ```
-/tmp/iperf3 -c CAMERA_IP
+iperf3 -c <IP-of-A>
+```
+
+5. Reverse roles (MOST IMPORTANT)
+- Stop the server and swap roles
+- On device B
+```
+iperf3 -s
+```
+- On device A
+```
+iperf3 -c <IP-of-B>
+```
+
+6. Reverse flag (one-command bidirectional test)
+- Instead of swapping manually:
+```
+iperf3 -c <IP> -R
+```
+
+- -R = reverse (server sends to client)
+- This is great when you’re short on time.
+
+7. Stress / saturation test
+```
+iperf3 -c <IP> -t 30 -P 4
+```
+- What this does:
+```
+-t 30 → 30 seconds
+-P 4 → 4 parallel streams
+```
+- What it reveals
+- Marginal fiber
+- Dirty connectors
+- Bad SFPs
+- Switch buffers failing
+- If this test:
+- starts OK then collapses → physical issue
+- stays stable → link is solid
+
+8. UDP test (optional but powerful)
+```
+iperf3 -c <IP> -u -b 500M
+```
+- Look for:
+- lost/total datagrams
+- jitter
+- Packet loss > 0.1% = problem
+- High jitter = unstable link
+- UDP is brutal — it exposes weak links fast.
+
+
+##### The single most telling comparison
+- Run these two back-to-back:
+```
+iperf3 -c <IP>
+iperf3 -c <IP> -R
+```
+```
+Interpret like this:
+Result	Meaning
+Both good	Physical layer OK
+Forward good, reverse bad	TX/RX polarity issue
+Forward bad, reverse good	Same — direction flipped
+Both bad	Optics / cable / switch
 ```
 
 ## NOTES
@@ -85,8 +150,15 @@ sender: 120 retransmits
 ```
 - Dozens or hundreds → physical layer problem
 
-
-
+4. Direction symmetry
+- This is the biggest tell.
+- Result	Meaning
+```
+Both directions similar	Physical layer OK
+One fast, one slow/0	TX/RX polarity issue
+One works, other won’t connect	Broken direction
+Both bad	Optics / cable / switch
+```
 
 
 
