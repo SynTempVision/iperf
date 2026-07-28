@@ -33,3 +33,26 @@ Verify the change:
 ```
 grep TARGET_IP ~/iperf-3.14/run_iperf_location_report.sh
 ```
+
+## Known Issue: TP-LINK USB Ethernet adapters cap throughput (~85-95 Mbps)
+
+The Windows laptop used as the iperf3 target has no built-in Ethernet NIC —
+both its Ethernet interfaces are TP-LINK Gigabit Ethernet USB adapters
+(likely Realtek RTL8153-family chipset). These report a `1 Gbps` link speed
+in `Get-NetAdapter`, but real throughput through them caps around 85-95 Mbps
+regardless of the remote device, subnet, or switch involved — confirmed
+2026-07-28 by getting the same ~85-95 Mbps result across multiple different
+nodes/subnets/switches, including tests where both ends were on the same
+subnet with no routing hop.
+
+**Impact:** any iperf3 test run against this laptop will currently read as
+"low throughput" even on a genuinely healthy Gigabit link. Do not trust a
+FAIL/low-throughput result from this laptop's iperf3 client/server until
+this is fixed or worked around.
+
+**Fix (not yet applied as of 2026-07-28):** update/replace the TP-LINK USB
+adapter driver (Realtek RTL8153 chipset drivers are commonly the cause),
+confirm the adapter is enumerating at USB3/SuperSpeed in Device Manager, and
+disable USB selective suspend / power-saving on the adapter. Alternatively,
+substitute a device with a real built-in Gigabit NIC as the target when
+testing plant links, to avoid this bottleneck entirely.
